@@ -15,15 +15,13 @@ namespace WebFormBD.Api.Controllers
     {
 
         [HttpGet("HelloyAppi")]
-        public  string HelloyAppi ()
+        public string HelloyAppi()
         {
             return "Привет я Апи для  1С";
         }
 
-
-
-        [HttpPost ("AutUser")]
-        public async Task<ActionResult< string>> Aut ( UserRequst user)
+        [HttpPost("AutUser")]
+        public async Task<ActionResult<string>> Aut(UserRequst user)
         {
             using (SqlContext sqlContext = new SqlContext())
             {
@@ -35,11 +33,11 @@ namespace WebFormBD.Api.Controllers
                     if (string.IsNullOrWhiteSpace(user.password))
                         return BadRequest("Пароль не может быть пустым");
 
-                   var login = sqlContext.Users.SingleOrDefault(x => x.Login == user.login);
-                   if (login == null)
+                    var login = sqlContext.Users.SingleOrDefault(x => x.Login == user.login);
+                    if (login == null)
                         return NotFound("Пользователь с таким  логином не найден");
-                   
-                    var us =   sqlContext.Users.SingleOrDefault(x => x.Login == user.login && x.Password == user.password);
+
+                    var us = sqlContext.Users.SingleOrDefault(x => x.Login == user.login && x.Password == user.password);
                     if (us != null)
                         return Ok($"{us.LastName} {us.Name} {us.Patronumic}");
                     else return NotFound("Не верный пароль");
@@ -50,11 +48,73 @@ namespace WebFormBD.Api.Controllers
                 }
             }
         }
+
+
+
+        [HttpPost("AddUser")]
+        public async Task<ActionResult<string>> AddUser(UserAddRequst user)
+        {
+            using (SqlContext sqlContext = new SqlContext())
+            {
+                if(string.IsNullOrWhiteSpace(user.name))
+                return BadRequest("Имя пользователя не может  быть пустым");
+
+                if (string.IsNullOrWhiteSpace(user.lastName))
+                    return BadRequest("Фамилия пользователя не может  быть пустым");
+
+                if (string.IsNullOrWhiteSpace(user.login))
+                    return BadRequest("Логин не может быть пустым");
+
+                if (string.IsNullOrWhiteSpace(user.password))
+                    return BadRequest("Пароль не может быть пустым");
+                
+                if (sqlContext.Users.Where(x => x.Login.ToLower() == user.login.ToLower()).Count() > 0)
+                   return    StatusCode(202, "Пользователь с таким  логином уже существует  в базе данных");
+
+                try
+                {
+                    var newUser = new User()
+                    {
+                        LastName = user.lastName,
+                        Login = user.login,
+                        Name = user.name,
+                        Password = user.password,
+                    };
+
+                    if (!string.IsNullOrEmpty(user.patronumic))
+                       newUser.Patronumic = user.patronumic;
+
+                    sqlContext.Users.Add(newUser);
+                    sqlContext.SaveChanges();
+                    return Ok($"пользователь {user.lastName} добавлен  в  базу данных");
+                }
+                catch (Exception ex)
+                {
+                   return   StatusCode(400, ex.Message);
+                }
+            }
+        }
     }
+
+
+
+
+
 
     public class UserRequst
     {
         public string login { get; set;  }
         public string password { get; set;   }
     }
+
+   public class UserAddRequst
+    {
+        public string name { get; set; }
+        public string lastName { get; set; }
+        public string patronumic { get; set; }
+        public string login { get; set; }
+        public string password { get; set; }
+    }
+
+
 }
