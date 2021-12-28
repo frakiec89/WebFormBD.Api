@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31729.503
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebFormBD.Api", "WebFormBD.Api\WebFormBD.Api.csproj", "{F61A34F7-A169-44C7-8160-1009DB8E50D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebFormBD.Api.EF", "WebFormBD.Api.EF\WebFormBD.Api.EF.csproj", "{5EA698EF-0DD2-4FD1-9B36-D8A31B90380A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F61A34F7-A169-44C7-8160-1009DB8E50D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F61A34F7-A169-44C7-8160-1009DB8E50D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F61A34F7-A169-44C7-8160-1009DB8E50D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F61A34F7-A169-44C7-8160-1009DB8E50D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EA698EF-0DD2-4FD1-9B36-D8A31B90380A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EA698EF-0DD2-4FD1-9B36-D8A31B90380A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EA698EF-0DD2-4FD1-9B36-D8A31B90380A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EA698EF-0DD2-4FD1-9B36-D8A31B90380A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5026210A-C389-4DBD-B117-422417BE93C6}
+	EndGlobalSection
+EndGlobal
