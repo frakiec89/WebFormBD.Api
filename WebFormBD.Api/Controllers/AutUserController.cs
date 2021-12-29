@@ -49,8 +49,6 @@ namespace WebFormBD.Api.Controllers
             }
         }
 
-
-
         [HttpPost("AddUser")]
         public async Task<ActionResult<string>> AddUser(UserAddRequst user)
         {
@@ -94,18 +92,55 @@ namespace WebFormBD.Api.Controllers
                 }
             }
         }
+
+
+        [HttpPost("AutUserAdmin")]
+        public async Task<ActionResult<UserResponse>> AutAdmin(UserRequst user)
+        {
+            using (SqlContext sqlContext = new SqlContext())
+            {
+                try
+                {
+                    if (string.IsNullOrWhiteSpace(user.login))
+                        return BadRequest("Логин не может быть пустым");
+
+                    if (string.IsNullOrWhiteSpace(user.password))
+                        return BadRequest("Пароль не может быть пустым");
+
+                    var login = sqlContext.Users.SingleOrDefault(x => x.Login == user.login);
+                    if (login == null)
+                        return NotFound("Пользователь с таким  логином не найден");
+
+                    var us = sqlContext.Users.SingleOrDefault(x => x.Login == user.login && x.Password == user.password);
+                    if (us != null)
+                        return Ok( new UserResponse {  lastName = us.LastName , name = us.Name , patronumic = us.Patronumic 
+                        , typeuser =  us.isAdmin
+                        });
+                    else return NotFound("Не верный пароль");
+                }
+                catch (Exception ex)
+                {
+                    return NotFound(ex.Message);
+                }
+            }
+        }
+
     }
 
+    public class UserResponse
+    {
+        public string name { get; set; }
+        public string lastName { get; set; }
+        public string patronumic { get; set; }
+        public  string typeuser { get; set; }
 
-
-
-
+    }
 
     public class UserRequst
-    {
+   {
         public string login { get; set;  }
         public string password { get; set;   }
-    }
+   }
 
    public class UserAddRequst
     {

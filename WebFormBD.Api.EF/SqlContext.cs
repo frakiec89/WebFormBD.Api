@@ -1,8 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace WebFormBD.Api.EF
@@ -17,7 +21,31 @@ namespace WebFormBD.Api.EF
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer
-                (@"Server=192.168.10.160;Database=WebFormBD; User ID=Sa; Password= Frakiec89");
+                (GetConectionString());
+        }
+
+        private string GetConectionString()
+        {
+            if (!File.Exists("configsql.json"))
+                throw new Exception("Файл ConfigSQL.json отсутствует");
+            
+            try
+            {
+                var s = "configsql.json";
+
+                using (StreamReader r = new StreamReader(s))
+                {
+                    string json = r.ReadToEnd();
+                    var config = JsonConvert.DeserializeObject<dynamic>(json);
+                    return $"Data Source={config.server};Initial Catalog={config.nameDataBase};" +
+                          $"User Id =  {config.user};password={config.password}";
+                }
+            }
+            catch
+            {
+                throw new Exception("Файл ConfigSQL.json поврежден");
+            }
+            
         }
     }
 }

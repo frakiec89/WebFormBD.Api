@@ -14,5 +14,6 @@ namespace WebFormBD.Api.EF
         public  string Patronumic { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
+        public string isAdmin { get; set; }
     }
 }
