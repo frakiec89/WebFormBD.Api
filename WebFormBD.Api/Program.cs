@@ -20,7 +20,7 @@ namespace WebFormBD.Api
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>().UseUrls("http://192.168.10.160:5501;");
                 });
     }
 }
