@@ -5,10 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="configApi.json" />
     <Content Remove="configsql.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="configApi.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="configsql.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
